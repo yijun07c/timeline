@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>能源历史时间轴</title>
+    <link rel="stylesheet" href="/timeline/style.css">
+    <style>
+        /* 新增图片样式 */
+        .event-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+        
+        /* 调整事件卡片布局 */
+        .event-content {
+            display: flex;
+            padding: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .event-title {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        /* 右侧事件：标题在左，图片在右 */
+        .event.right .event-image {
+            border-radius: 0 8px 8px 0;
+            order: 2;
+        }
+        
+        .event.right .event-title {
+            order: 1;
+        }
+        
+        /* 左侧事件：标题在右，图片在左 */
+        .event.left .event-image {
+            border-radius: 8px 0 0 8px;
+            order: 1;
+        }
+        
+        .event.left .event-title {
+            order: 2;
+        }
+        
+        /* 移动端调整 */
+        @media (max-width: 768px) {
+            .event-image {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .event-title {
+                padding: 0.8rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>能源历史事件</h1>
+        <nav class="period-nav">
+            <a href="#前工业时期" class="nav-btn">前工业时期</a>
+            <a href="#第一次工业革命" class="nav-btn">第一次工业革命</a>
+            <a href="#第二次工业革命" class="nav-btn">第二次工业革命</a>
+            <a href="#战后能源-技术复合转型期" class="nav-btn">战后转型期</a>
+            <a href="#低碳能源系统转型期" class="nav-btn">低碳转型期</a>
+        </nav>
+    </header>
+    <main id="main-content">
+        <!-- 各时期区块由JavaScript动态生成 -->
+    </main>
+    <script src="/timeline/data.js"></script>
+    <script src="/timeline/main.js"></script>
+</body>
+</html>

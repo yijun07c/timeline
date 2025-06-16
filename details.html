@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>事件详情</title>
+    <link rel="stylesheet" href="/timeline/style.css">
+    <style>
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .video-container video {
+            width: 100%;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .video-poster {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 0.3s;
+            opacity: 1; /* 初始显示海报 */
+        }
+    </style>
+</head>
+<body>
+    <div class="detail-container">
+        <a href="/timeline/index.html" class="back-btn">← 返回时间轴</a>
+        <div id="detail-content">
+            <!-- 内容由JavaScript填充 -->
+        </div>
+        <a href="https://www.deepseek.com" class="deepseek-link" target="_blank">
+            访问DeepSeek获取更多信息
+        </a>
+    </div>
+    <script src="/timeline/data.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const eventId = parseInt(params.get('id'));
+        const event = events.find(e => e.id === eventId);
+        
+        if(event) {
+            document.getElementById('detail-content').innerHTML = `
+                <h1>${event.title}</h1>
+                <div class="detail-item">
+                    <strong>时间：</strong>${event.time}
+                </div>
+                <div class="detail-item">
+                    <strong>地区：</strong>${event.region}
+                </div>
+                <div class="detail-item">
+                    <strong>事件简介：</strong>${event.description}
+                </div>
+                <div class="video-container">
+                    <video id="event-video" muted autoplay playsinline>
+                        <source src="images/GIF-${event.id}.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-poster" style="background-image: url('images/schema-${event.id}.jpg')"></div>
+                </div>
+            `;
+            
+
+            // 视频控制逻辑
+            const video = document.getElementById('event-video');
+            const videoPoster = document.querySelector('.video-poster');
+            const videoContainer = document.querySelector('.video-container');
+
+            // 视频开始播放时隐藏海报
+            video.addEventListener('play', () => {
+                videoPoster.style.opacity = 0;
+            });
+
+            // 视频播放结束时恢复海报并重置视频
+            video.addEventListener('ended', () => {
+                video.pause();          // 暂停播放
+                video.currentTime = 0;  // 重置到第一帧（可选，确保与海报同步）
+                videoPoster.style.opacity = 1;  // 恢复海报显示
+            });
+          
+            // 鼠标悬停播放
+            videoContainer.addEventListener('mouseenter', () => {
+                video.loop = true;
+                video.play();
+            });
+            
+            // 鼠标移出重置
+            videoContainer.addEventListener('mouseleave', () => {
+                video.loop = false;
+                video.pause();
+                video.currentTime = 0;
+                ideoPoster.style.opacity = 1;
+            });
+            
+        }
+    </script>
+</body>
+</html>
+    
